@@ -32,7 +32,7 @@ class Stripe extends Model
     public function process(Request $request)
     {
         $userDetails = $this->getUserDetails($request);
-        $paymentMethodId = $this->createPaymentMethod($userDetails['card_details']);
+        $paymentMethodId = $this->createPaymentMethod($userDetails);
         $paymentIntentStatus = $this->createAndConfirmPaymentIntent($paymentMethodId);
         return $paymentIntentStatus == 'succeeded' ? true : false;
     }
@@ -47,9 +47,11 @@ class Stripe extends Model
     protected function getUserDetails(Request $request)
     {
         return [
-            'name' => $request->input('firstname') . ' ' . $request->input('lastname'),
-            'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
+            'billing_details' => [
+                'name' => $request->input('firstname') . ' ' . $request->input('lastname'),
+                'phone' => $request->input('phone'),
+                'email' => $request->input('email'),
+            ],
             'card_details' => [
                 'number' => $request->input('cardnumber'),
                 'exp_month' => $request->input('cardexpmonth'),
@@ -66,12 +68,13 @@ class Stripe extends Model
      *
      * @return string`
      */
-    protected function createPaymentMethod(array $cardDetails)
+    protected function createPaymentMethod(array $userDetails)
     {
         $paymentMethod = $this->client->request('POST', config('stripe.urls.PaymentMethod'), [
             'form_params' => [
                 'type' => 'card',
-                'card' => $cardDetails
+                'card' => $userDetails['card_details'],
+                'billing_details' => $userDetails['billing_details']
             ]
         ]);
 

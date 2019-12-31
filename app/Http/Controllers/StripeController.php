@@ -15,7 +15,7 @@ class StripeController extends Controller
      */
     public function index()
     {
-        return response()->json(['data' => config('stripe.credentials.Secret')]);
+        return response()->json(['data' => config('stripe.credentials')]);
     }
 
     /**

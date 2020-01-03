@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 class Stripe extends Model
 {
     /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
     * Stripe constructor
     */
     public function __construct()
@@ -20,7 +25,6 @@ class Stripe extends Model
             ]
         ]);
     }
-    // constructor for the client?
 
     /**
      * Process payment through Stripe
@@ -64,9 +68,9 @@ class Stripe extends Model
     /**
      * Create a PaymentMethod Stripe object using payment details
      *
-     * @param array $cardDetails
+     * @param array $userDetails
      *
-     * @return string`
+     * @return string
      */
     protected function createPaymentMethod(array $userDetails)
     {

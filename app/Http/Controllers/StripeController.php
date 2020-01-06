@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Stripe;
-use Illuminate\Http\Request;
 
 
+/**
+ * Class StripeController
+ * @package App\Http\Controllers
+ */
 class StripeController extends Controller
 {
     /**

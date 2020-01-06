@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Adapters\Guzzle;
 use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -18,12 +19,10 @@ class Stripe extends Model
     */
     public function __construct()
     {
-        $this->client = new Client([
-            'base_uri' => config('stripe.urls.BaseUri'),
-            'headers' => [
-                'Authorization' => 'Bearer ' . config('stripe.credentials.Secret')
-            ]
+        $this->client = new Guzzle(config('stripe.urls.BaseUri'), [
+            'Authorization' => 'Bearer ' . config('stripe.credentials.Secret')
         ]);
+        parent::__construct();
     }
 
     /**
@@ -74,15 +73,13 @@ class Stripe extends Model
      */
     protected function createPaymentMethod(array $userDetails)
     {
-        $paymentMethod = $this->client->request('POST', config('stripe.urls.PaymentMethod'), [
-            'form_params' => [
+        $paymentMethod = $this->client->post(config('stripe.urls.PaymentMethod'), [
                 'type' => 'card',
                 'card' => $userDetails['card_details'],
                 'billing_details' => $userDetails['billing_details']
-            ]
         ]);
 
-        return json_decode($paymentMethod->getBody())->id;
+        return $this->client->getResponseBody($paymentMethod)->id;
     }
 
     /**
@@ -94,15 +91,13 @@ class Stripe extends Model
      */
     protected function createAndConfirmPaymentIntent(string $paymentMethodId)
     {
-        $paymentIntent = $this->client->request('POST', config('stripe.urls.PaymentIntent'), [
-            'form_params' => [
+        $paymentIntent = $this->client->post(config('stripe.urls.PaymentIntent'), [
                 'confirm' => 'true',
                 'amount' => config('basket.course.price') * 100,
                 'currency' => 'gbp',
                 'payment_method' => $paymentMethodId
-            ]
         ]);
 
-        return json_decode($paymentIntent->getBody())->status;
+        return $this->client->getResponseBody($paymentIntent)->status;
     }
 }

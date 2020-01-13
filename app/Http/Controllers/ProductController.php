@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response()->json(['data' => config('basket.course')]);
+        return response()->json(['data' => config('products.course')]);
     }
 
 }

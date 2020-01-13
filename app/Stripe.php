@@ -93,7 +93,7 @@ class Stripe extends Model
     {
         $paymentIntent = $this->client->post(config('stripe.urls.PaymentIntent'), [
                 'confirm' => 'true',
-                'amount' => config('basket.course.price') * 100,
+                'amount' => config('products.course.price') * 100,
                 'currency' => 'gbp',
                 'payment_method' => $paymentMethodId
         ]);

@@ -2,13 +2,11 @@
 
 namespace App\Adapters;
 
-use Unirest\Request;
-
 /**
- * Class Unirest
+ * Class Httpful
  * @package App\Adapters
  */
-class Unirest implements HttpClient
+class Httpful implements HttpClient
 {
     /**
      * @var Request
@@ -26,13 +24,12 @@ class Unirest implements HttpClient
     protected $headers;
 
     /**
-     * Unirest constructor.
+     * Httpful constructor.
      * @param string $baseUrl
      * @param array $headers
      */
     public function __construct(string $baseUrl, array $headers)
     {
-        $this->client = new Request();
         $this->baseUrl = $baseUrl;
         $this->headers = $headers;
     }
@@ -40,12 +37,16 @@ class Unirest implements HttpClient
     /**
      * @param string $uri
      * @param array $params
-     * @return \Unirest\Response
+     * @return \Httpful\Response
+     * @throws \Httpful\Exception\ConnectionErrorException
      */
     public function post(string $uri, array $params)
     {
-        $body = Request\Body::form($params);
-        return $this->client->post($this->baseUrl . $uri, $this->headers, $body);
+        return \Httpful\Request::post($this->baseUrl . $uri)
+            ->addHeaders($this->headers)
+            ->body($params, \Httpful\Mime::FORM)
+            ->expectsJson()
+            ->send();
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Adapters;
 use GuzzleHttp\Client;
 
 /**
- * Class GuzzleAdapter
+ * Class Guzzle
  * @package App\Adapters
  */
 class Guzzle implements HttpClient
@@ -16,9 +16,9 @@ class Guzzle implements HttpClient
     protected $client;
 
     /**
-     * GuzzleAdapter constructor.
-     * @param $baseUrl
-     * @param $headers
+     * Guzzle constructor.
+     * @param string $baseUrl
+     * @param array $headers
      */
     public function __construct(string $baseUrl, array $headers)
     {

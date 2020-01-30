@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class StripeController
@@ -17,9 +16,8 @@ class OrderController extends Controller
      *
      * @return JsonResponse
      */
-    public function store()
+    public function store(): JsonResponse
     {
-        $session = new Session();
         $order = new Order();
         return response()->json([
             'success' => $order->storeOrderDetails(request()),

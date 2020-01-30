@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing for the specified resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return response()->json(['data' => config('products.course')]);
     }

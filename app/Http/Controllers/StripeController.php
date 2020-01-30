@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Stripe;
-use Symfony\Component\HttpFoundation\Session\Session;
-
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class StripeController
@@ -15,19 +14,21 @@ class StripeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        return response()->json(['data' => config('stripe.credentials')]);
+        return response()->json([
+            'data' => config('stripe.credentials')
+        ]);
     }
 
     /**
      * Process card payment through Stripe
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function process()
+    public function process(): JsonResponse
     {
         $stripe = new Stripe();
         return response()->json([

@@ -29,11 +29,10 @@ class Stripe extends Model
     /**
      * Process payment through Stripe
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param Request $request
      * @return bool
      */
-    public function process(Request $request)
+    public function process(Request $request): bool
     {
         $userDetails = $this->getUserDetails($request);
         $paymentMethodId = $this->createPaymentMethod($userDetails);
@@ -44,11 +43,10 @@ class Stripe extends Model
     /**
      * Retrieve user and payment details from checkout form
      *
-     * @param \Illuminate\Http\Request $request
-     *
+     * @param Request $request
      * @return array
      */
-    protected function getUserDetails(Request $request)
+    protected function getUserDetails(Request $request): array
     {
         return [
             'billing_details' => [
@@ -69,10 +67,9 @@ class Stripe extends Model
      * Create a PaymentMethod Stripe object using payment details
      *
      * @param array $userDetails
-     *
      * @return string
      */
-    protected function createPaymentMethod(array $userDetails)
+    protected function createPaymentMethod(array $userDetails): string
     {
         $paymentMethod = $this->client->post(config('stripe.urls.PaymentMethod'), [
                 'type' => 'card',
@@ -87,10 +84,9 @@ class Stripe extends Model
      * Create and confirm a Stripe PaymentIntent object
      *
      * @param string $paymentMethodId
-     *
      * @return string
      */
-    protected function createAndConfirmPaymentIntent(string $paymentMethodId)
+    protected function createAndConfirmPaymentIntent(string $paymentMethodId): string
     {
         $session = new Session();
         $paymentIntent = $this->client->post(config('stripe.urls.PaymentIntent'), [

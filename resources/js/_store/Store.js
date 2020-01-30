@@ -82,7 +82,6 @@ class BaseStore {
             body: JSON.stringify(data)
         }).then(response => response.json()).then(response => {window.location.href = window.location.origin + '/#/checkout'})
     };
-    };
 
 }
 

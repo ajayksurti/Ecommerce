@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class StripeController
@@ -18,14 +19,10 @@ class OrderController extends Controller
      */
     public function store()
     {
+        $session = new Session();
         $order = new Order();
-        $amount = request()->input('totalprice');
-        $currency = request()->input('currency');
         return response()->json([
-            'success' => $order->storeOrderDetails([
-                'amount' => $amount,
-                'currency' => $currency
-            ]),
+            'success' => $order->storeOrderDetails(request()),
         ]);
     }
 

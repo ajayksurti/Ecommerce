@@ -70,8 +70,21 @@ class BaseStore {
 
     goToCheckout = () => {
         let data = {
-            totalprice: 1000,
-            currency: 'gbp',
+            items: [
+                {
+                    'name': 'AAT',
+                    'quantity': 1,
+                    'price': 125
+                },
+                {
+                    'name': 'CIPD',
+                    'quantity': 2,
+                    'price': 250
+                },
+            ],
+            subtotal: 625,
+            discounts: [],
+            total: 625
         };
         return fetch('/api/order', {
             headers: {

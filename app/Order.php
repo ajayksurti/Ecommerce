@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -14,14 +15,16 @@ class Order extends Model
     /**
      * Store the order details in the session to be used when processing payment.
      *
-     * @param array $orderDetails
+     * @param Request $request
      * @return bool
      */
-    public function storeOrderDetails(array $orderDetails): bool
+    public function storeOrderDetails(Request $request): bool
     {
         $session = new Session();
-        $session->set('amount', $orderDetails['amount']);
-        $session->set('currency', $orderDetails['currency']);
+        $session->set('items', $request->input('items'));
+        $session->set('subtotal',  $request->input('subtotal'));
+        $session->set('discounts',  $request->input('discounts'));
+        $session->set('total',  $request->input('total'));
         return true;
     }
 }

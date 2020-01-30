@@ -95,8 +95,8 @@ class Stripe extends Model
         $session = new Session();
         $paymentIntent = $this->client->post(config('stripe.urls.PaymentIntent'), [
                 'confirm' => 'true',
-                'amount' => $session->get('amount') * 100,
-                'currency' => $session->get('currency'),
+                'amount' => $session->get('total') * 100,
+                'currency' => 'gbp',
                 'payment_method' => $paymentMethodId
         ]);
 

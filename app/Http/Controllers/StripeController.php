@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Stripe;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 /**
@@ -14,7 +15,7 @@ class StripeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -24,7 +25,7 @@ class StripeController extends Controller
     /**
      * Process card payment through Stripe
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function process()
     {

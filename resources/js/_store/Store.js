@@ -69,7 +69,19 @@ class BaseStore {
     };
 
     goToCheckout = () => {
-        window.location.href = window.location.origin + '/#/checkout'
+        let data = {
+            totalprice: 1000,
+            currency: 'gbp',
+        };
+        return fetch('/api/order', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(response => response.json()).then(response => {window.location.href = window.location.origin + '/#/checkout'})
+    };
     };
 
 }

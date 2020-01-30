@@ -19,6 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('products', 'ProductController@index');
 
+Route::post('order', 'OrderController@store');
+
 Route::get('stripe', 'StripeController@index');
 
 Route::post('submit', 'StripeController@process');

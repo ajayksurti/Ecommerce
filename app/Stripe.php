@@ -6,6 +6,7 @@ use App\Adapters\Guzzle;
 use Illuminate\Database\Eloquent\Model;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class Stripe extends Model
 {
@@ -91,10 +92,11 @@ class Stripe extends Model
      */
     protected function createAndConfirmPaymentIntent(string $paymentMethodId)
     {
+        $session = new Session();
         $paymentIntent = $this->client->post(config('stripe.urls.PaymentIntent'), [
                 'confirm' => 'true',
-                'amount' => config('products.course.price') * 100,
-                'currency' => 'gbp',
+                'amount' => $session->get('amount') * 100,
+                'currency' => $session->get('currency'),
                 'payment_method' => $paymentMethodId
         ]);
 

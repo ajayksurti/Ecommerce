@@ -13,7 +13,7 @@ class ProductController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json(['data' => config('products.course')]);
+        return response()->json(['data' => config('products.courses')]);
     }
 
 }

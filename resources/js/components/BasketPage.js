@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Store from '../_store/Store';
 import BootstrapTable from 'react-bootstrap-table-next';
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import {Button} from "reactstrap";

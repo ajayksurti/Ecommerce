@@ -1,19 +1,8 @@
 import {observable, decorate} from 'mobx';
-import Products from '../products.json';
 
 class BaseStore {
     constructor() {
-        this.products = this.getProducts();
     }
-
-    getProducts = () => {
-        // return fetch('/api/products')
-        //     .then(response => response.json())
-        //     .then(response => {
-        //         this.products = response.data;
-        //     });
-        return Products;
-    };
 
     checkOut = () => {
         let data = {
@@ -66,34 +55,6 @@ class BaseStore {
 
     setCardCvv = (event) => {
         this.cardCvv = event.target.value;
-    };
-
-    goToCheckout = () => {
-        let data = {
-            items: [
-                {
-                    'name': 'AAT',
-                    'quantity': 1,
-                    'price': 125
-                },
-                {
-                    'name': 'CIPD',
-                    'quantity': 2,
-                    'price': 250
-                },
-            ],
-            subtotal: 625,
-            discounts: [],
-            total: 625
-        };
-        return fetch('/api/order', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(data)
-        }).then(response => response.json()).then(response => {window.location.href = window.location.origin + '/#/checkout'})
     };
 
 }

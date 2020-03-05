@@ -1,6 +1,7 @@
 import React from 'react';
 import {CardNumberElement, CardExpiryElement, CardCvcElement} from '@stripe/react-stripe-js';
 import '../../../public/css/CheckoutForm.css'
+import { Label } from 'reactstrap';
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -22,15 +23,14 @@ const CARD_ELEMENT_OPTIONS = {
 
 function CardSection() {
     return (
-        <div class="checkout-form">
-          <h3>Personal details</h3>
+        <div>
           <h3>Payment details</h3>
-          Card number
-          <CardNumberElement options={CARD_ELEMENT_OPTIONS} />
-          Expiry date
-          <CardExpiryElement options={CARD_ELEMENT_OPTIONS} />
-          3-digit CVC code
-          <CardCvcElement options={CARD_ELEMENT_OPTIONS} />
+          <Label for="cardNumber">Card number</Label>
+          <CardNumberElement options={CARD_ELEMENT_OPTIONS} id="cardNumber"/>
+          <Label for="cardExpiry">Expiry date</Label>
+          <CardExpiryElement options={CARD_ELEMENT_OPTIONS} id="cardExpiry"/>
+          <Label for="cardCvc">3-digit CVC code</Label>
+          <CardCvcElement options={CARD_ELEMENT_OPTIONS} id="cardCvc"/>
         </div>
     );
 };

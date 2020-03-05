@@ -34,47 +34,23 @@ class Stripe extends Model
      */
     public function process(Request $request): bool
     {
-        $userDetails = $this->getUserDetails($request);
-        $paymentMethodId = $this->createPaymentMethod($userDetails);
+        $token = $request->input('token');
+        $paymentMethodId = $this->createPaymentMethod($token);
         $paymentIntentStatus = $this->createAndConfirmPaymentIntent($paymentMethodId);
         return $paymentIntentStatus == 'succeeded' ? true : false;
     }
 
     /**
-     * Retrieve user and payment details from checkout form
-     *
-     * @param Request $request
-     * @return array
-     */
-    protected function getUserDetails(Request $request): array
-    {
-        return [
-            'billing_details' => [
-                'name' => $request->input('firstname') . ' ' . $request->input('lastname'),
-                'phone' => $request->input('phone'),
-                'email' => $request->input('email'),
-            ],
-            'card_details' => [
-                'number' => $request->input('cardnumber'),
-                'exp_month' => $request->input('cardexpmonth'),
-                'exp_year' => $request->input('cardexpyear'),
-                'cvc' => $request->input('cardcvc')
-            ]
-        ];
-    }
-
-    /**
      * Create a PaymentMethod Stripe object using payment details
      *
-     * @param array $userDetails
+     * @param string $stripeToken
      * @return string
      */
-    protected function createPaymentMethod(array $userDetails): string
+    protected function createPaymentMethod(string $stripeToken): string
     {
         $paymentMethod = $this->client->post(config('stripe.urls.PaymentMethod'), [
                 'type' => 'card',
-                'card' => $userDetails['card_details'],
-                'billing_details' => $userDetails['billing_details']
+                'card[token]' => $stripeToken
         ]);
 
         return $this->client->getResponseBody($paymentMethod)->id;

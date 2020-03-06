@@ -2,21 +2,21 @@ import React, {useState, useEffect} from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import {Button} from "reactstrap";
-import Basket from '../basket.json';
+// import Basket from '../basket.json';
 
 function BasketPage() {
-    const [basket, setBasket] = useState(Basket);
+    const [basket, setBasket] = useState([]);
 
-    // async function getData() {
-    //     // const response = await fetch('/api/basket');
-    //     // const data = await response.json();
-    //     // setData(data.data);
-    //     setData(Basket.data)
-    //   }
+    async function getData() {
+        const response = await fetch('/api/basket');
+        const data = await response.json();
+        // setData(data.data);
+        setBasket(data)
+    }
 
-    // useEffect(() => {
-    //     getData();
-    // });
+    useEffect(() => {
+        getData();
+    }, []);
 
     // const product = JSON.parse(JSON.stringify(basket));
 

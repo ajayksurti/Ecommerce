@@ -8,7 +8,7 @@ function ProductsPage() {
     const [products, setProducts] = useState({});
     const [basket, setBasket] = useState([]);
     const addToBasket = () => {
-        setBasket(prevArray => [...prevArray, {"product"}])
+        setBasket(prevArray => [...prevArray, {product: "product"}])
     }
 
     function getData() {
@@ -21,7 +21,14 @@ function ProductsPage() {
     }, []);
 
     function goToBasket() {
-        return window.location.href = window.location.origin + '/#/basket';
+        return fetch('/api/basket', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({data: basket})
+        }).then(response => response.json).then(response => window.location.href = window.location.origin + '/#/basket')
     }
 
     console.log(basket)

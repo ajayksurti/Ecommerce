@@ -6,7 +6,7 @@ use App\Order;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class StripeController
+ * Class OrderController
  * @package App\Http\Controllers
  */
 class OrderController extends Controller
